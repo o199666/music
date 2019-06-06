@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cwj.music.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.cwj.music.entity.User">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="number" jdbcType="VARCHAR" property="number" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="image" jdbcType="VARCHAR" property="image" />
+    </resultMap>
+
+    <select id="queryUserList"   resultMap="BaseResultMap">
+        select *  from user
+    </select>
+
+    <select id="userLogin" resultType="com.cwj.music.entity.User">
+        select  * from  user where number = #{number}
+    </select>
+
+    <!--  注册 -->
+    <insert id="userReg" parameterType="com.cwj.music.entity.User" >
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert  into user(name,number,password,image) values (#{name},#{number},#{password},#{image})
+    </insert>
+    <!--注册之前根据用户名查下-->
+    <select id="queryUserByNumber" resultType="java.lang.Integer">
+        select count(*)  from user where number=#{number}
+    </select>
+</mapper>

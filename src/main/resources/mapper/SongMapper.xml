@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cwj.music.dao.SongDao">
+    <resultMap id="BaseResultMap" type="com.cwj.music.entity.Song">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="song_name" jdbcType="VARCHAR" property="song_name" />
+        <result column="image" jdbcType="VARCHAR" property="image" />
+        <result column="userid" jdbcType="INTEGER" property="userid" />
+    </resultMap>
+
+    <select id="querySongList"   resultMap="BaseResultMap">
+        select *  from song
+    </select>
+
+    <insert id="addSong" parameterType="com.cwj.music.entity.Song" >
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into song(song_name,image,userid) values (#{song_name},#{image},#{userid})
+    </insert>
+</mapper>
